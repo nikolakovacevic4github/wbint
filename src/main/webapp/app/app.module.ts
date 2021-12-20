@@ -1,11 +1,11 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import locale from '@angular/common/locales/sr';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { TranslateModule, TranslateService, TranslateLoader, MissingTranslationHandler } from '@ngx-translate/core';
+import { MissingTranslationHandler, TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxWebstorageModule, SessionStorageService } from 'ngx-webstorage';
 import * as dayjs from 'dayjs';
 import { NgbDateAdapter, NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -20,13 +20,17 @@ import { EntityRoutingModule } from './entities/entity-routing.module';
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
 import { fontAwesomeIcons } from './config/font-awesome-icons';
 import { httpInterceptorProviders } from 'app/core/interceptor/index';
-import { translatePartialLoader, missingTranslationHandler } from './config/translation.config';
+import { missingTranslationHandler, translatePartialLoader } from './config/translation.config';
 import { MainComponent } from './layouts/main/main.component';
 import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
+import { MsalModule } from '@azure/msal-angular';
+import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
+
+const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
 
 @NgModule({
   imports: [
@@ -40,6 +44,24 @@ import { ErrorComponent } from './layouts/error/error.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: false }),
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
+    MsalModule.forRoot(
+      new PublicClientApplication({
+        auth: {
+          clientId: 'Enter_the_Application_Id_here', // This is your client ID
+          authority: 'Enter_the_Cloud_Instance_Id_Here Enter_the_Tenant_Info_Here', // This is your tenant ID
+          redirectUri: 'Enter_the_Redirect_Uri_Here', // This is your redirect URI
+        },
+        cache: {
+          cacheLocation: 'localStorage',
+          storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
+        },
+      }),
+      { interactionType: InteractionType.Redirect },
+      {
+        interactionType: InteractionType.Redirect,
+        protectedResourceMap: new Map([['Enter_the_Graph_Endpoint_Here/v1.0/me', ['user.read']]]),
+      }
+    ),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

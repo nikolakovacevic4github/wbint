@@ -5,6 +5,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { MsalService } from '@azure/msal-angular';
 
 @Component({
   selector: 'jhi-home',
@@ -16,9 +17,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   public user_name: string | undefined;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(private accountService: AccountService, private router: Router, private authService: MsalService) {}
 
   ngOnInit(): void {
+    this.authService.loginPopup().subscribe({
+      next: result => {
+        // console.log(result);
+        this.user_name = this.authService.instance.getActiveAccount()?.username;
+      },
+    });
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
