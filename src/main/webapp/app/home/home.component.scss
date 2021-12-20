@@ -4,10 +4,23 @@ Main page styles
 
 .hipster {
   display: inline-block;
-  width: 347px;
-  height: 497px;
-  background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
+  width: 100%;
+  height: 350px;
+  background: url('../../content/images/development_data_partnership.png') no-repeat center top;
   background-size: contain;
+}
+
+.logo-img {
+  width: 100%;
+  height: 130px;
+  display: inline-block;
+  vertical-align: middle;
+  background: url('../../content/images/undp-logo.png') no-repeat center center;
+  background-size: contain;
+}
+
+.home-description {
+  font-size: 20px;
 }
 
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
@@ -17,7 +30,7 @@ Main page styles
   only screen and (min-resolution: 192dpi),
   only screen and (min-resolution: 2dppx) {
   .hipster {
-    background: url('../../content/images/jhipster_family_member_0.svg') no-repeat center top;
+    background: url('../../content/images/development_data_partnership.png') no-repeat center top;
     background-size: contain;
   }
 }
