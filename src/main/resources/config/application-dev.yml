@@ -54,16 +54,20 @@ spring:
   #    hikari:
   #      poolName: Hikari
   #      auto-commit: false
+  #  datasource:
+  #    type: com.zaxxer.hikari.HikariDataSource
+  #    url: jdbc:postgresql://ec2-54-247-107-109.eu-west-1.compute.amazonaws.com:5432/datifvleb2tlce
+  #    username: gmgsmssirnnnym
+  #    password: 2a7457cfd7a08aaa3513ec346d896e7d078d07482ccee3cf92de9a770052154d
+  #    hikari:
+  #      poolName: Hikari
+  #      auto-commit: false
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://ec2-54-247-107-109.eu-west-1.compute.amazonaws.com:5432/datifvleb2tlce
-    username: gmgsmssirnnnym
-    password: 2a7457cfd7a08aaa3513ec346d896e7d078d07482ccee3cf92de9a770052154d
-    hikari:
-      poolName: Hikari
-      auto-commit: false
+    url: jdbc:h2:file:./data/wbintBase
+    username: sa
+    password: password
   jpa:
-    database-platform: tech.jhipster.domain.util.FixedPostgreSQL10Dialect
+    database-platform: org.hibernate.dialect.H2Dialect
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
