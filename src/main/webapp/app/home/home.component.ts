@@ -20,12 +20,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private accountService: AccountService, private router: Router, private authService: MsalService) {}
 
   ngOnInit(): void {
-    this.authService.loginPopup().subscribe({
-      next: result => {
-        // console.log(result);
-        this.user_name = this.authService.instance.getActiveAccount()?.username;
-      },
-    });
+    this.authService.loginRedirect();
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))

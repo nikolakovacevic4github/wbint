@@ -1,6 +1,6 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import locale from '@angular/common/locales/sr';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -27,7 +27,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
-import { MsalModule } from '@azure/msal-angular';
+import { MsalGuard, MsalInterceptor, MsalModule, MsalRedirectComponent } from '@azure/msal-angular';
 import { InteractionType, PublicClientApplication } from '@azure/msal-browser';
 
 const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigator.userAgent.indexOf('Trident/') > -1;
@@ -47,19 +47,24 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     MsalModule.forRoot(
       new PublicClientApplication({
         auth: {
-          clientId: 'Enter_the_Application_Id_here', // This is your client ID
-          authority: 'Enter_the_Cloud_Instance_Id_Here Enter_the_Tenant_Info_Here', // This is your tenant ID
-          redirectUri: 'Enter_the_Redirect_Uri_Here', // This is your redirect URI
+          clientId: 'ca91e1e2-47a3-49c0-8168-2a8ce51c9d', // This is your client ID
+          authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // This is your tenant ID
+          redirectUri: 'https://ddp-access.undp.org/.auth/login/aad/callback', // This is your redirect URI
         },
         cache: {
           cacheLocation: 'localStorage',
           storeAuthStateInCookie: isIE, // Set to true for Internet Explorer 11
         },
       }),
-      { interactionType: InteractionType.Redirect },
       {
         interactionType: InteractionType.Redirect,
-        protectedResourceMap: new Map([['Enter_the_Graph_Endpoint_Here/v1.0/me', ['user.read']]]),
+        authRequest: {
+          scopes: ['user.read'],
+        },
+      },
+      {
+        interactionType: InteractionType.Redirect, // MSAL Interceptor Configuration
+        protectedResourceMap: new Map([['https://graph.microsoft.com/v1.0/me', ['user.read']]]),
       }
     ),
     TranslateModule.forRoot({
@@ -79,9 +84,15 @@ const isIE = window.navigator.userAgent.indexOf('MSIE ') > -1 || window.navigato
     { provide: LOCALE_ID, useValue: 'sr' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: MsalInterceptor,
+    //   multi: true
+    // },
+    // MsalGuard
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
-  bootstrap: [MainComponent],
+  bootstrap: [MainComponent, MsalRedirectComponent],
 })
 export class AppModule {
   constructor(
