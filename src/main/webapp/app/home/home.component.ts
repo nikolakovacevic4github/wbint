@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 import { MsalService } from '@azure/msal-angular';
+import {ProfileService} from "../layouts/profiles/profile.service";
 
 @Component({
   selector: 'jhi-home',
@@ -17,10 +18,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   public user_name: string | undefined;
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router, private authService: MsalService) {}
+  constructor(private accountService: AccountService, private profileService: ProfileService, private router: Router, private authService: MsalService) {}
 
   ngOnInit(): void {
-    this.authService.loginRedirect();
+    this.profileService.getProfileInfo().subscribe(profileInfo => {
+      if(profileInfo.inProduction) {
+          this.authService.loginRedirect().subscribe(value => {
+            console.log(value);
+          });
+      }
+    });
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
