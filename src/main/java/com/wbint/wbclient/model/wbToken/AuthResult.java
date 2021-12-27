@@ -11,7 +11,7 @@ public class AuthResult {
     private String refreshToken;
     private Boolean multipleResourceRefreshToken;
     private Long expiresAfter;
-    private LocalDateTime expiresOnDate;
+    private String expiresOnDate;
 
     public String getAccessTokenType() {
         return accessTokenType;
@@ -77,11 +77,11 @@ public class AuthResult {
         this.expiresAfter = expiresAfter;
     }
 
-    public LocalDateTime getExpiresOnDate() {
+    public String getExpiresOnDate() {
         return expiresOnDate;
     }
 
-    public void setExpiresOnDate(LocalDateTime expiresOnDate) {
+    public void setExpiresOnDate(String expiresOnDate) {
         this.expiresOnDate = expiresOnDate;
     }
 
