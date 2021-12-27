@@ -152,7 +152,7 @@ jhipster:
 # ===================================================================
 
 # application:
-wb:
+application:
   apikey: 9GpzI4zLjx7ctdS8d6EjT9daySsxkN1y
   url: https://apigwext.worldbank.org/azure
   authority: https://login.microsoftonline.com/
