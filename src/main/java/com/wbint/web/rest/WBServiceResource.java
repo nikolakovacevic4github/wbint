@@ -14,7 +14,7 @@ public class WBServiceResource {
 
     private final ApplicationProperties applicationProperties;
 
-    private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AsyncConfiguration.class);
+    private final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger("ddp");
     private final WBService wbService;
 
     public WBServiceResource(ApplicationProperties applicationProperties, WBService wbService) {
