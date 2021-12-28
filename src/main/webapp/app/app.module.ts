@@ -63,7 +63,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // PPE testing environment.
       redirectUri: '/',
       postLogoutRedirectUri: '/',
-      knownAuthorities: ['login.microsoftonline.com', 'logon.dev.undp.org']
+      knownAuthorities: ['https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/token','https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/authorize']
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
