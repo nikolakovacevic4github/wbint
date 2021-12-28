@@ -9,7 +9,6 @@ import { Authority } from 'app/config/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access.service';
 
 const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
-const isIframe = window !== window.parent && !window.opener;
 
 @NgModule({
   imports: [
@@ -33,7 +32,7 @@ const isIframe = window !== window.parent && !window.opener;
         },
         ...LAYOUT_ROUTES,
       ],
-      { enableTracing: DEBUG_INFO_ENABLED, initialNavigation: !isIframe ? 'enabled' : 'disabled' }
+      { enableTracing: DEBUG_INFO_ENABLED }
     ),
   ],
   exports: [RouterModule],
