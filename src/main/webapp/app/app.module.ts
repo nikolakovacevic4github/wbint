@@ -62,7 +62,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       // authority: 'https://login.microsoftonline.com/common', // Prod environment. Uncomment to use.
       authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // PPE testing environment.
       redirectUri: '/',
-      postLogoutRedirectUri: '/'
+      postLogoutRedirectUri: '/',
+      knownAuthorities: ['login.microsoftonline.com', 'logon.dev.undp.org']
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
@@ -80,8 +81,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  // protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']); // Prod environment. Uncomment to use.
-  protectedResourceMap.set('https://graph.microsoft-ppe.com/v1.0/me', ['user.read']);
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']); // Prod environment. Uncomment to use.
+  // protectedResourceMap.set('https://graph.microsoft-ppe.com/v1.0/me', ['user.read']);
 
   return {
     interactionType: InteractionType.Redirect,
