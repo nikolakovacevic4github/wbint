@@ -61,7 +61,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       clientId: 'ca91e1e2-47a3-49c0-8168-2a8ce51c9d', // PPE testing environment
       // authority: 'https://login.microsoftonline.com/common', // Prod environment. Uncomment to use.
       authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // PPE testing environment.
-      redirectUri: '/',
+      redirectUri: 'https://ddp-access.undp.org',
       postLogoutRedirectUri: '/',
       knownAuthorities: ['https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/token','https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/authorize']
     },
