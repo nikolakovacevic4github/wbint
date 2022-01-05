@@ -58,7 +58,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
       // clientId: '6226576d-37e9-49eb-b201-ec1eeb0029b6', // Prod enviroment. Uncomment to use.
-      clientId: 'ca91e1e2-47a3-49c0-8168-2a8ce51c9d', // PPE testing environment
+      clientId: 'ca91e1e2-47a3-49c0-8168-2a8ce51c9da7', // PPE testing environment
       // authority: 'https://login.microsoftonline.com/common', // Prod environment. Uncomment to use.
       authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // PPE testing environment.
       redirectUri: 'https://ddp-access.undp.org',
