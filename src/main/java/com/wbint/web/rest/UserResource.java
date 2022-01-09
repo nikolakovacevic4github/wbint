@@ -26,6 +26,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import tech.jhipster.web.util.HeaderUtil;
@@ -92,6 +94,18 @@ public class UserResource {
         this.userRepository = userRepository;
         this.mailService = mailService;
     }
+
+    @GetMapping("/graph")
+    @ResponseBody
+    public String graph(
+            @RegisteredOAuth2AuthorizedClient("graph") OAuth2AuthorizedClient graphClient
+    ) {
+        // toJsonString() is just a demo.
+        // oAuth2AuthorizedClient contains access_token. We can use this access_token to access the resource server.
+        log.debug(graphClient.toString());
+        return graphClient.toString();
+    }
+
 
     /**
      * {@code POST  /admin/users}  : Creates a new user.

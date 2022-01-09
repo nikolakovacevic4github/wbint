@@ -38,8 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     private accountService: AccountService,
     private profileService: ProfileService,
     private router: Router,
-    private authService: MsalService,
-    private msalBroadcastService: MsalBroadcastService,
     private wbService: WBService,
     private http: HttpClient) {
     this.email = 'ddp.test1@oneun.org';
@@ -54,23 +52,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.msalBroadcastService.msalSubject$
-      .pipe(
-        filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
-      )
-      .subscribe((result: EventMessage) => {
-        console.log(result);
-        const payload = result.payload as AuthenticationResult;
-        this.authService.instance.setActiveAccount(payload.account);
-      });
-
-    this.msalBroadcastService.inProgress$
-      .pipe(
-        filter((status: InteractionStatus) => status === InteractionStatus.None)
-      )
-      .subscribe(() => {
-        this.setLoginDisplay();
-      })
 
     // this.wbService.checkIfUserExist(this.email).subscribe(
     //   value => {
@@ -83,10 +64,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     //   .getAuthenticationState()
     //   .pipe(takeUntil(this.destroy$))
     //   .subscribe(account => (this.account = account));
-  }
-
-  setLoginDisplay(): void {
-    this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
   }
 
   login(): void {

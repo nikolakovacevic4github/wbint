@@ -1,6 +1,6 @@
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
 import locale from '@angular/common/locales/sr';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -27,76 +27,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
-import {
-  MSAL_GUARD_CONFIG,
-  MSAL_INSTANCE,
-  MSAL_INTERCEPTOR_CONFIG,
-  MsalBroadcastService,
-  MsalGuard,
-  MsalGuardConfiguration,
-  MsalInterceptor,
-  MsalInterceptorConfiguration,
-  MsalModule,
-  MsalRedirectComponent,
-  MsalService
-} from '@azure/msal-angular';
-import {
-  BrowserCacheLocation,
-  InteractionType,
-  IPublicClientApplication,
-  LogLevel,
-  PublicClientApplication
-} from '@azure/msal-browser';
-
-const isIE = window.navigator.userAgent.indexOf("MSIE ") > -1 || window.navigator.userAgent.indexOf("Trident/") > -1; // Remove this line to use Angular Universal
-
-export function loggerCallback(logLevel: LogLevel, message: string): void {
-  console.log(message);
-}
-
-export function MSALInstanceFactory(): IPublicClientApplication {
-  return new PublicClientApplication({
-    auth: {
-      // clientId: '6226576d-37e9-49eb-b201-ec1eeb0029b6', // Prod enviroment. Uncomment to use.
-      clientId: 'ca91e1e2-47a3-49c0-8168-2a8ce51c9da7', // PPE testing environment
-      // authority: 'https://login.microsoftonline.com/common', // Prod environment. Uncomment to use.
-      authority: 'https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96', // PPE testing environment.
-      redirectUri: 'https://ddp-access.undp.org',
-      postLogoutRedirectUri: '/',
-      knownAuthorities: ['https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/token','https://login.microsoftonline.com/4d4bb337-1ef3-4532-b116-35297c03da96/oauth2/v2.0/authorize']
-    },
-    cache: {
-      cacheLocation: BrowserCacheLocation.LocalStorage,
-      storeAuthStateInCookie: isIE, // set to true for IE 11. Remove this line to use Angular Universal
-    },
-    system: {
-      loggerOptions: {
-        loggerCallback,
-        logLevel: LogLevel.Info,
-        piiLoggingEnabled: false
-      }
-    }
-  });
-}
-
-// export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-//   const protectedResourceMap = new Map<string, Array<string>>();
-//   protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', ['user.read']); // Prod environment. Uncomment to use.
-//   return {
-//     interactionType: InteractionType.Redirect,
-//     protectedResourceMap
-//   };
-// }
-
-export function MSALGuardConfigFactory(): MsalGuardConfiguration {
-  return {
-    interactionType: InteractionType.Redirect,
-    authRequest: {
-      scopes: ['openid', 'profile']
-    },
-    loginFailedRoute: '/login-failed'
-  };
-}
 
 @NgModule({
   imports: [
@@ -111,7 +41,6 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-', caseSensitive: true }),
     HttpClientModule,
-    MsalModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -129,29 +58,9 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
     { provide: LOCALE_ID, useValue: 'sr' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
     httpInterceptorProviders,
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: MsalInterceptor,
-      multi: true
-    },
-    {
-      provide: MSAL_INSTANCE,
-      useFactory: MSALInstanceFactory
-    },
-    {
-      provide: MSAL_GUARD_CONFIG,
-      useFactory: MSALGuardConfigFactory
-    },
-    // {
-    //   provide: MSAL_INTERCEPTOR_CONFIG,
-    //   useFactory: MSALInterceptorConfigFactory
-    // },
-    MsalService,
-    MsalGuard,
-    MsalBroadcastService
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
-  bootstrap: [MainComponent, MsalRedirectComponent],
+  bootstrap: [MainComponent],
 })
 export class AppModule {
   constructor(
