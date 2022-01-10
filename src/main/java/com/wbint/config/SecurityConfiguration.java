@@ -93,7 +93,7 @@ public class SecurityConfiguration extends AADResourceServerWebSecurityConfigure
             .antMatchers("/management/info").permitAll()
             .antMatchers("/management/prometheus").permitAll()
             .antMatchers("/management/**").authenticated()
-                .and().oauth2Login().defaultSuccessUrl("https://ddp-access.undp.org/");
+                .and().oauth2Login();
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
