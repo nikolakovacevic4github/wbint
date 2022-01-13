@@ -102,10 +102,8 @@ public class SecurityConfiguration extends AADResourceServerWebSecurityConfigure
         http.authorizeRequests()
                 .antMatchers( "/oauth2/**", "/login/**" ).permitAll()
                 .anyRequest().authenticated()
-//                .and()
-//                .oauth2Login()
                 .and()
-                .oauth2Client();;
+                .oauth2Login();
     }
 
     private JWTConfigurer securityConfigurerAdapter() {
