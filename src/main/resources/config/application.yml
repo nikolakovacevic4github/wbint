@@ -97,7 +97,7 @@ azure:
     authorization-clients:
       graph:
         scopes: https://graph.microsoft.com/User.Read
-    redirect-uri-template: http://localhost:8080/login/oauth2/code
+    redirect-uri-template: https://ddp-access.undp.org/login/oauth2/code/
 
 spring:
   application:
