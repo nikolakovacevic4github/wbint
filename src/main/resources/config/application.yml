@@ -94,6 +94,7 @@ azure:
     tenant-id: 4d4bb337-1ef3-4532-b116-35297c03da96
     client-id: ca91e1e2-47a3-49c0-8168-2a8ce51c9da7
     client-secret: 4917Q~gKFflN4P908lgDsERApMJO7yUwlJ8xo
+    #application-type: web_application
     authorization-clients:
       graph:
         scopes: https://graph.microsoft.com/User.Read

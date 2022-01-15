@@ -106,7 +106,7 @@ public class SecurityConfiguration extends AADResourceServerWebSecurityConfigure
                 .oauth2Login();
     }
 
-    private JWTConfigurer securityConfigurerAdapter() {
-        return new JWTConfigurer(tokenProvider);
-    }
+    // private JWTConfigurer securityConfigurerAdapter() {
+    //     return new JWTConfigurer(tokenProvider);
+    // }
 }
