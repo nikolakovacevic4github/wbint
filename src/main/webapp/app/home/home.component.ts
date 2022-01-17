@@ -76,10 +76,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getProfile(): void {
-    this.http.get(GRAPH_ENDPOINT)
-      .subscribe(profile => {
-        this.profile = profile;
-      });
+    // this.http.get(GRAPH_ENDPOINT)
+    //   .subscribe(profile => {
+    //     this.profile = profile;
+    //   });
   }
 
   private redirectToExternalLink(redirectUrl: string | undefined): void {
