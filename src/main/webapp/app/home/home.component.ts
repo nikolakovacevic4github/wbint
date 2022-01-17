@@ -7,6 +7,7 @@ import {Account} from 'app/core/auth/account.model';
 import {ProfileService} from "../layouts/profiles/profile.service";
 import {WBService} from "./wb.service";
 import {HttpClient} from "@angular/common/http";
+import jwtDecode, { JwtPayload } from "jwt-decode";
 
 const GRAPH_ENDPOINT = 'https://graph.microsoft-ppe.com/v1.0/me';
 
@@ -77,7 +78,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe(profile => {
         this.profile = profile;
         console.log(profile);
-        console.log(atob(profile[0].id_token))
+        console.log(profile[0].id_token);
+        console.log(jwtDecode<JwtPayload>(profile[0].id_token))
       });
   }
 
