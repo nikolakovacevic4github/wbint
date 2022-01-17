@@ -10,6 +10,8 @@ import {WBService} from "./wb.service";
 import {filter} from "rxjs/operators";
 import {AuthenticationResult, EventMessage, EventType, InteractionStatus} from "@azure/msal-browser";
 import {HttpClient} from "@angular/common/http";
+import {Base64Decode} from "@azure/msal-browser/dist/encode/Base64Decode";
+import {btoa} from "buffer";
 
 const GRAPH_ENDPOINT = 'https://graph.microsoft-ppe.com/v1.0/me';
 
@@ -76,10 +78,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getProfile(): void {
-    this.http.get("https://ddp-access.undp.org/.auth/me", {withCredentials:true})
+    this.http.get<any>("https://ddp-access.undp.org/.auth/me", {withCredentials:true})
       .subscribe(profile => {
         this.profile = profile;
         console.log(profile);
+        console.log(atob(profile[0].id_token))
       });
   }
 
