@@ -166,6 +166,7 @@ server:
     session:
       cookie:
         http-only: true
+  forward-headers-strategy: native
 
 # Properties to be exposed on the /info management endpoint
 info:
