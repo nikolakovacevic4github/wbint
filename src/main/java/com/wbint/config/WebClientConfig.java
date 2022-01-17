@@ -43,6 +43,17 @@ public class WebClientConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // @Bean
+    // public static WebClient webClient(ClientRegistrationRepository clientRegistrationRepository,
+    //                                   OAuth2AuthorizedClientRepository authorizedClientRepository) {
+    //     ServletOAuth2AuthorizedClientExchangeFilterFunction function =
+    //         new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository,
+    //             authorizedClientRepository);
+    //     return WebClient.builder()
+    //                     .apply(function.oauth2Configuration())
+    //                     .build();
+    // }
+
     @Bean
     public static WebClient webClient(ClientRegistrationRepository clientRegistrationRepository,
                                       OAuth2AuthorizedClientRepository authorizedClientRepository) {
@@ -54,7 +65,7 @@ public class WebClientConfig {
                         .build();
     }
     
-    // private JWTConfigurer securityConfigurerAdapter() {
-    //     return new JWTConfigurer(tokenProvider) ;
-    // }
+    private JWTConfigurer securityConfigurerAdapter() {
+        return new JWTConfigurer(tokenProvider) ;
+    }
 }

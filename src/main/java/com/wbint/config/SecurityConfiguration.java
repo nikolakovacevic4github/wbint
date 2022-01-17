@@ -29,40 +29,42 @@ import tech.jhipster.config.JHipsterProperties;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration extends AADResourceServerWebSecurityConfigurerAdapter {
 
-    private final JHipsterProperties jHipsterProperties;
+   
 
-    private final TokenProvider tokenProvider;
+    // private final JHipsterProperties jHipsterProperties;
 
-    private final CorsFilter corsFilter;
-    private final SecurityProblemSupport problemSupport;
+    // private final TokenProvider tokenProvider;
 
-    public SecurityConfiguration(
-        TokenProvider tokenProvider,
-        CorsFilter corsFilter,
-        JHipsterProperties jHipsterProperties,
-        SecurityProblemSupport problemSupport
-    ) {
-        this.tokenProvider = tokenProvider;
-        this.corsFilter = corsFilter;
-        this.problemSupport = problemSupport;
-        this.jHipsterProperties = jHipsterProperties;
-    }
+    // private final CorsFilter corsFilter;
+    // private final SecurityProblemSupport problemSupport;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+    // public SecurityConfiguration(
+    //     TokenProvider tokenProvider,
+    //     CorsFilter corsFilter,
+    //     JHipsterProperties jHipsterProperties,
+    //     SecurityProblemSupport problemSupport
+    // ) {
+    //     this.tokenProvider = tokenProvider;
+    //     this.corsFilter = corsFilter;
+    //     this.problemSupport = problemSupport;
+    //     this.jHipsterProperties = jHipsterProperties;
+    // }
 
-    @Bean
-    public static WebClient webClient(ClientRegistrationRepository clientRegistrationRepository,
-                                      OAuth2AuthorizedClientRepository authorizedClientRepository) {
-        ServletOAuth2AuthorizedClientExchangeFilterFunction function =
-                new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository,
-                        authorizedClientRepository);
-        return WebClient.builder()
-                .apply(function.oauth2Configuration())
-                .build();
-    }
+    // @Bean
+    // public PasswordEncoder passwordEncoder() {
+    //     return new BCryptPasswordEncoder();
+    // }
+
+    // @Bean
+    // public static WebClient webClient(ClientRegistrationRepository clientRegistrationRepository,
+    //                                   OAuth2AuthorizedClientRepository authorizedClientRepository) {
+    //     ServletOAuth2AuthorizedClientExchangeFilterFunction function =
+    //             new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository,
+    //                     authorizedClientRepository);
+    //     return WebClient.builder()
+    //             .apply(function.oauth2Configuration())
+    //             .build();
+    // }
 
 //    @Override
 //    public void configure(WebSecurity web) {
@@ -96,15 +98,15 @@ public class SecurityConfiguration extends AADResourceServerWebSecurityConfigure
 //                .and().oauth2Login();
 //    }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        super.configure(http);
-        http.authorizeRequests()
-                .antMatchers( "/oauth2/**", "/login/**" ).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login();
-    }
+    // @Override
+    // protected void configure(HttpSecurity http) throws Exception {
+    //     super.configure(http);
+    //     http.authorizeRequests()
+    //             .antMatchers( "/oauth2/**", "/login/**" ).permitAll()
+    //             .anyRequest().authenticated()
+    //             .and()
+    //             .oauth2Login();
+    // }
 
     // private JWTConfigurer securityConfigurerAdapter() {
     //     return new JWTConfigurer(tokenProvider);

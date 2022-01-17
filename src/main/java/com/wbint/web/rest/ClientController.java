@@ -20,22 +20,22 @@ import  com.wbint.utils.*;
 @Controller
 public class ClientController {
 
-    @GetMapping("/")
-    public String index(
-        Model model,
-        OAuth2AuthenticationToken authentication,
-        @RegisteredOAuth2AuthorizedClient("azure") OAuth2AuthorizedClient azureClient
-    ) {
-        model.addAttribute("userName", authentication.getName());
-        String preferredUsername = Optional.of(authentication)
-                                           .map(OAuth2AuthenticationToken::getPrincipal)
-                                           .map(user -> (OidcUser) user)
-                                           .map(StandardClaimAccessor::getPreferredUsername)
-                                           .orElse("UNKNOWN");
-        model.addAttribute("preferredUsername", preferredUsername);
-        model.addAttribute("clientName", azureClient.getClientRegistration().getClientName());
-        return "index";
-    }
+    // @GetMapping("/")
+    // public String index(
+    //     Model model,
+    //     OAuth2AuthenticationToken authentication,
+    //     @RegisteredOAuth2AuthorizedClient("azure") OAuth2AuthorizedClient azureClient
+    // ) {
+    //     model.addAttribute("userName", authentication.getName());
+    //     String preferredUsername = Optional.of(authentication)
+    //                                        .map(OAuth2AuthenticationToken::getPrincipal)
+    //                                        .map(user -> (OidcUser) user)
+    //                                        .map(StandardClaimAccessor::getPreferredUsername)
+    //                                        .orElse("UNKNOWN");
+    //     model.addAttribute("preferredUsername", preferredUsername);
+    //     model.addAttribute("clientName", azureClient.getClientRegistration().getClientName());
+    //     return "index";
+    // }
 
     @GetMapping("/graph")
     @ResponseBody
