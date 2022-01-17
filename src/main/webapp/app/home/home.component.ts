@@ -26,7 +26,7 @@ type ProfileType = {
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  profile!: ProfileType;
+  profile!: any;
   account: Account | null = null;
   loginDisplay = false;
   public redirectMessage: boolean;
@@ -76,10 +76,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getProfile(): void {
-    // this.http.get(GRAPH_ENDPOINT)
-    //   .subscribe(profile => {
-    //     this.profile = profile;
-    //   });
+    this.http.get("https://ddp-access.undp.org/.auth/me", {withCredentials:true})
+      .subscribe(profile => {
+        this.profile = profile;
+        console.log(profile);
+      });
   }
 
   private redirectToExternalLink(redirectUrl: string | undefined): void {
