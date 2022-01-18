@@ -1,22 +1,13 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {AccountService} from 'app/core/auth/account.service';
 import {Account} from 'app/core/auth/account.model';
 import {ProfileService} from "../layouts/profiles/profile.service";
 import {WBService} from "./wb.service";
-import {HttpClient} from "@angular/common/http";
-import jwtDecode, { JwtPayload } from "jwt-decode";
-
-const GRAPH_ENDPOINT = 'https://graph.microsoft-ppe.com/v1.0/me';
-
-type ProfileType = {
-  givenName?: string,
-  surname?: string,
-  userPrincipalName?: string,
-  id?: string
-};
+import jwtDecode, {JwtPayload} from "jwt-decode";
+import {AuthServerProvider} from "../core/auth/auth-jwt.service";
 
 @Component({
   selector: 'jhi-home',
@@ -26,37 +17,40 @@ type ProfileType = {
 export class HomeComponent implements OnInit, OnDestroy {
   profile!: any;
   account: Account | null = null;
-  loginDisplay = false;
-  public redirectMessage: boolean;
-  public user_name: string | undefined;
+  loader = true;
+  userNotExist = false;
+  userNotRegistered = false;
+  tryingToRegister = false;
+
   private readonly destroy$ = new Subject<void>();
-  private email: string | undefined;
 
   constructor(
     private accountService: AccountService,
     private profileService: ProfileService,
+    private authService: AuthServerProvider,
     private router: Router,
-    private wbService: WBService,
-    private http: HttpClient) {
-    this.email = 'ddp.test1@oneun.org';
-    this.redirectMessage = false;
+    private wbService: WBService) {
   }
 
   ngOnInit(): void {
     this.profileService.getProfileInfo().subscribe(profileInfo => {
       if (profileInfo.inProduction) {
         console.log("PRODUCTION>>>");
-        this.getProfile();
+        this.getProfile().subscribe(profile => {
+          this.profile = jwtDecode<JwtPayload>(profile[0].id_token);
+          console.log(profile);
+          this.checifUserExist(this.profile.email);
+        });
+      } else {
+        console.log("DEVELOPMENT>>>");
+        this.profile = {
+          email: "ddp.test4@oneun.org",
+          name: "Test1",
+          surr_name: "test1"
+        }
+        this.checifUserExist(this.profile.email);
       }
     });
-
-
-    // this.wbService.checkIfUserExist(this.email).subscribe(
-    //   value => {
-    //     if (value.body?.userExist) {
-    //       this.redirectToExternalLink(value.body.redirectUrl);
-    //     }
-    //   });
 
     // this.accountService
     //   .getAuthenticationState()
@@ -73,25 +67,48 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  getProfile(): void {
-    this.http.get<any>("https://ddp-access.undp.org/.auth/me", {withCredentials:true})
-      .subscribe(profile => {
-        this.profile = profile;
-        console.log(profile);
-        console.log(profile[0].id_token);
-        console.log(jwtDecode<JwtPayload>(profile[0].id_token))
-      });
+  getProfile(): Observable<any> {
+    return this.authService.getUserInfoFromAD();
+  }
+
+  registerUserToWB(): void {
+    this.tryingToRegister = true;
+    this.wbService.registerUser( this.profile.email, this.profile.name, this.profile.surr_name).subscribe(
+      value => {
+        if (value.body?.userRegistered) {
+          this.redirectToExternalLink(value.body.redirectUrl);
+        } else {
+          this.loader = false;
+          this.tryingToRegister = false;
+          this.userNotExist = false;
+          this.userNotRegistered = true;
+        }
+      }
+    );
   }
 
   private redirectToExternalLink(redirectUrl: string | undefined): void {
     if (!redirectUrl) {
       return;
     }
-    this.redirectMessage = true;
+    window.location.href = redirectUrl;
+  }
+
+  private checifUserExist(email: string): void {
+    this.loader = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
     setInterval(() => {
-      this.redirectMessage = false;
-      window.location.href = redirectUrl;
-      console.log("redirect...");
+      this.wbService.checkIfUserExist(email).subscribe(
+        value => {
+          if (value.body?.userExist) {
+            this.redirectToExternalLink(value.body.redirectUrl);
+          } else {
+            this.userNotExist = true;
+            this.loader = false;
+            this.userNotRegistered = false;
+          }
+        });
     }, 5000);
   }
 }

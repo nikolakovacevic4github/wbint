@@ -3,13 +3,44 @@
     <span class="logo-img"></span>
     <h1 class="text-center text-black-50 font-weight-bolder mt-2 mb-3">Development Data Partnership - UNDP user account creation</h1>
     <span class="hipster"></span>
-    <p class="home-description text-center">
-     <!-- Hello, {{ profile.givenName | uppercase }}, checking if you have already registered at Development Data Partnership Portal... -->
+
+
+    <p class="home-description text-center" *ngIf="loader && !userNotExist && !userNotRegistered">
+      Hello, {{ profile.name | uppercase }}, checking if you have already registered at Development Data Partnership Portal...
     </p>
-    <div class="padding-centered">
+    <div class="padding-centered" *ngIf="loader && !userNotExist && !userNotRegistered">
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
+
+
+    <p class="home-description text-center" *ngIf="!loader && userNotExist && !userNotRegistered">
+      {{ profile.name + " " + profile.surr_name | uppercase }}, you are not registered at Development Data Partnership Portal.
+    </p>
+    <div class="padding-centered" *ngIf="!loader && userNotExist && !userNotRegistered">
+      <button
+        (click)="registerUserToWB()"
+        class="btn btn-primary">
+        Register
+      </button>
+    </div>
+
+
+    <p class="home-description text-center" *ngIf="tryingToRegister">
+      {{ profile.name + " " + profile.surr_name | uppercase }}, we are trying to register you, please wait...
+    </p>
+    <div class="padding-centered" *ngIf="tryingToRegister">
+      <div class="spinner-border text-primary" role="status">
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+
+    <p class="home-description text-center" *ngIf="!loader && !userNotExist && userNotRegistered">
+      {{ profile.name | uppercase }}, something went wrong! We can not register you at Development Data Partnership Portal. Please contact us for help on
+      <a href="mailto:data@undp.org">data@undp.org</a>
+    </p>
   </div>
+
 </div>

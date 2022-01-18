@@ -1,18 +1,10 @@
-import {Component, OnInit, RendererFactory2, Renderer2, OnDestroy, Inject} from '@angular/core';
+import {Component, OnInit, RendererFactory2, Renderer2, OnDestroy} from '@angular/core';
 import {Title} from '@angular/platform-browser';
 import {Router, ActivatedRouteSnapshot, NavigationEnd} from '@angular/router';
 import {TranslateService, LangChangeEvent} from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
 
 import {AccountService} from 'app/core/auth/account.service';
-import {
-  AuthenticationResult,
-  InteractionStatus,
-  PopupRequest,
-  RedirectRequest
-} from "@azure/msal-browser";
-import {filter, takeUntil} from "rxjs/operators";
-import {MSAL_GUARD_CONFIG, MsalBroadcastService, MsalGuardConfiguration, MsalService} from "@azure/msal-angular";
 import {Subject} from "rxjs";
 
 @Component({
@@ -21,7 +13,6 @@ import {Subject} from "rxjs";
 })
 export class MainComponent implements OnInit, OnDestroy {
   isIframe = false;
-  loginDisplay = false;
   private readonly _destroying$ = new Subject<void>();
   private renderer: Renderer2;
 

@@ -30,6 +30,10 @@ public class ApplicationProperties {
 
     private String redirectUrl;
 
+    private String groupName;
+
+    private String inviteRedirectUrl;
+
     public String getUrl() {
         return url;
     }
@@ -100,5 +104,21 @@ public class ApplicationProperties {
 
     public void setRedirectUrl(String redirectUrl) {
         this.redirectUrl = redirectUrl;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
+    }
+
+    public String getInviteRedirectUrl() {
+        return inviteRedirectUrl;
+    }
+
+    public void setInviteRedirectUrl(String inviteRedirectUrl) {
+        this.inviteRedirectUrl = inviteRedirectUrl;
     }
 }

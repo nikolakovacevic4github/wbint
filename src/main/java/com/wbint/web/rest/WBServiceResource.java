@@ -4,6 +4,7 @@ import com.wbint.config.ApplicationProperties;
 import com.wbint.config.AsyncConfiguration;
 import com.wbint.service.WBService;
 import com.wbint.service.dto.UserExist;
+import com.wbint.service.dto.UserRegistered;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +25,7 @@ public class WBServiceResource {
 
     @GetMapping("/searchUser")
     public ResponseEntity<UserExist> createUser(@RequestParam String email) {
-        log.debug("REST request search user with email: {}", email);
+        log.info("REST request search user with email: {}", email);
         UserExist userExist = new UserExist();
         wbService.getWBToken();
         Boolean isExist = wbService.isUserExist(email);
@@ -33,5 +34,18 @@ public class WBServiceResource {
             userExist.setRedirectUrl(applicationProperties.getRedirectUrl());
         }
         return ResponseEntity.ok(userExist);
+    }
+
+    @GetMapping("/registerUser")
+    public ResponseEntity<UserRegistered> registerUser(@RequestParam String email, @RequestParam String name, @RequestParam String surrName) {
+        log.debug("REST request to register user with email: {}", email);
+        UserRegistered userRegistered = new UserRegistered();
+        wbService.getWBToken();
+        Boolean isUserRegistered = wbService.registerUser(email, name, surrName);
+        userRegistered.setUserRegistered(isUserRegistered);
+        if(isUserRegistered) {
+            userRegistered.setRedirectUrl(applicationProperties.getRedirectUrl());
+        }
+        return ResponseEntity.ok(userRegistered);
     }
 }

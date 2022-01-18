@@ -151,3 +151,5 @@ application:
   username: b2b_undp_userprovisioning@worldbank.org
   password: u1XyTcLn3bnUtrm3dZRQyuY9CZ0WhfQ
   redirectUrl: https://portal.datapartnership.org
+  groupName: B2B_QA_UNDP
+  inviteRedirectUrl: https://datapartnershipqa.worldbank.org/

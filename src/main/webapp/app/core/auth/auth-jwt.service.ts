@@ -40,6 +40,10 @@ export class AuthServerProvider {
     });
   }
 
+  getUserInfoFromAD() :Observable<any> {
+    return this.http.get<any>("https://ddp-access.undp.org/.auth/me", {withCredentials:true});
+  }
+
   private authenticateSuccess(response: JwtToken, rememberMe: boolean): void {
     const jwt = response.id_token;
     if (rememberMe) {
