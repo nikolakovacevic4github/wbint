@@ -36,6 +36,9 @@
       </div>
     </div>
 
+    <p class="home-description text-center" *ngIf="userRegistered">
+      {{ profile.name | uppercase }}, You are already registered – redirecting to <a href="https://portal.datapartnership.org">portal.datapartnership.org</a> in 5 seconds!
+    </p>
 
     <p class="home-description text-center" *ngIf="!loader && !userNotExist && userNotRegistered">
       {{ profile.name | uppercase }}, something went wrong! We can not register you at Development Data Partnership Portal. Please contact us for help on

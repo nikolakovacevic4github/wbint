@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userNotExist = false;
   userNotRegistered = false;
   tryingToRegister = false;
+  userRegistered = false;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -73,7 +74,15 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   registerUserToWB(): void {
     this.tryingToRegister = true;
-    this.wbService.registerUser( this.profile.email, this.profile.name, this.profile.surr_name).subscribe(
+
+    const name_array = this.profile.name.trim().split(/\s+/);
+    let first_name = name_array.slice(0, Math.floor(name_array.length / 2));
+    let last_name = name_array.slice(Math.floor(name_array.length / 2), name_array.length)
+
+    first_name = first_name.reduce((previousValue: string, currentValue: string) => previousValue + " " + currentValue).trim();
+    last_name = last_name.reduce((previousValue: string, currentValue: string) => previousValue + " " + currentValue).trim();
+
+    this.wbService.registerUser( this.profile.email, first_name, last_name).subscribe(
       value => {
         if (value.body?.userRegistered) {
           this.redirectToExternalLink(value.body.redirectUrl);
@@ -102,7 +111,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.wbService.checkIfUserExist(email).subscribe(
         value => {
           if (value.body?.userExist) {
-            this.redirectToExternalLink(value.body.redirectUrl);
+            this.redirectToExternalLinkAfterSeconds(value.body.redirectUrl, 5000);
           } else {
             this.userNotExist = true;
             this.loader = false;
@@ -110,5 +119,15 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         });
     }, 5000);
+  }
+
+  private redirectToExternalLinkAfterSeconds( redirectURL: string | undefined, miliseconds: number): void {
+    this.userRegistered = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
+    this.loader = false;
+    setInterval(() => {
+      this.redirectToExternalLink(redirectURL);
+    }, miliseconds)
   }
 }
