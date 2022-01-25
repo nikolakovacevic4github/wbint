@@ -40,9 +40,20 @@
       {{ profile.name | uppercase }}, You are already registered – redirecting to <a href="https://portal.datapartnership.org">portal.datapartnership.org</a> in 5 seconds!
     </p>
 
+    <p class="home-description text-center" *ngIf="userRegisteredSuccessfully">
+      {{ profile.name | uppercase }}, You are successfuly registered at Development Data Partnership Portal!
+        </p>    
+
+    <p class="home-description text-center" *ngIf="userRegisteredSuccessfully">
+      You will be redirected to the portal in 5 seconds or you can access Development Data Partnership Portal directly at https://portal.datapartnership.org using your UNDP credentials.
+    </p>
+    <p class="home-description text-center" *ngIf="userRegisteredSuccessfully">
+      Redirecting to <a href="https://portal.datapartnership.org">portal.datapartnership.org</a> in 5 seconds!
+    </p>
+
     <p class="home-description text-center" *ngIf="!loader && !userNotExist && userNotRegistered">
-      {{ profile.name | uppercase }}, something went wrong! We can not register you at Development Data Partnership Portal. Please contact us for help on
-      <a href="mailto:data@undp.org">data@undp.org</a>
+      {{ profile.name | uppercase }}, something went wrong! We were not able to create your account in Development Data Partnership Portal - send us a message at
+      <a href="mailto:data@undp.org">data@undp.org</a> and we will do our best to sort it out.
     </p>
   </div>
 

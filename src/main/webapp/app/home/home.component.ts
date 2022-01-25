@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   userNotRegistered = false;
   tryingToRegister = false;
   userRegistered = false;
+  userRegisteredSuccessfully=false;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -85,12 +86,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.wbService.registerUser( this.profile.email, first_name, last_name).subscribe(
       value => {
         if (value.body?.userRegistered) {
-          this.redirectToExternalLink(value.body.redirectUrl);
+            this.loader = true;
+            this.userNotExist = false;
+            this.userNotRegistered = false;
+          this.redirectToExternalLinkAfterSecondsWithSuccessMessage(value.body.redirectUrl, 5000);
         } else {
           this.loader = false;
           this.tryingToRegister = false;
           this.userNotExist = false;
           this.userNotRegistered = true;
+          this.userRegisteredSuccessfully=false;
         }
       }
     );
@@ -116,6 +121,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.userNotExist = true;
             this.loader = false;
             this.userNotRegistered = false;
+            this.userRegisteredSuccessfully=false;
           }
         });
     }, 5000);
@@ -123,6 +129,16 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private redirectToExternalLinkAfterSeconds( redirectURL: string | undefined, miliseconds: number): void {
     this.userRegistered = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
+    this.loader = false;
+    setInterval(() => {
+      this.redirectToExternalLink(redirectURL);
+    }, miliseconds)
+  }
+
+  private redirectToExternalLinkAfterSecondsWithSuccessMessage( redirectURL: string | undefined, miliseconds: number): void {
+    this.userRegisteredSuccessfully = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
     this.loader = false;
