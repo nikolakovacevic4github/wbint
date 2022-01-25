@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-md-9 mr-auto ml-auto">
     <span class="logo-img"></span>
-    <h1 class="text-center text-black-50 font-weight-bolder mt-2 mb-3">Development Data Partnership - UNDP user account creation</h1>
+    <h1 class="text-center text-black-50 font-weight-bolder mt-2 mb-3" style=" font-size: 2rem">Development Data Partnership - UNDP user account creation</h1>
     <span class="hipster"></span>
 
 
-    <p class="home-description text-center" *ngIf="loader && !userNotExist && !userNotRegistered">
+    <p class="home-description text-center" *ngIf="loader && !userNotExist && !userNotRegistered ">
       Hello, {{ profile.name | uppercase }}, checking if you have already registered at Development Data Partnership Portal...
     </p>
     <div class="padding-centered" *ngIf="loader && !userNotExist && !userNotRegistered">
@@ -15,10 +15,10 @@
     </div>
 
 
-    <p class="home-description text-center" *ngIf="!loader && userNotExist && !userNotRegistered">
-      {{ profile.name + " " + profile.surr_name | uppercase }}, you are not registered at Development Data Partnership Portal.
+    <p class="home-description text-center" *ngIf="!loader && userNotExist  && !userNotRegistered && !tryingToRegister" >
+      {{ profile.name | uppercase }}, you are not registered at Development Data Partnership Portal.
     </p>
-    <div class="padding-centered" *ngIf="!loader && userNotExist && !userNotRegistered">
+    <div class="padding-centered" *ngIf="!loader && userNotExist && !userNotRegistered  && !tryingToRegister">
       <button
         (click)="registerUserToWB()"
         class="btn btn-primary">
@@ -28,7 +28,7 @@
 
 
     <p class="home-description text-center" *ngIf="tryingToRegister">
-      {{ profile.name + " " + profile.surr_name | uppercase }}, we are trying to register you, please wait...
+      {{ profile.name | uppercase }}, we are trying to register you, please wait...
     </p>
     <div class="padding-centered" *ngIf="tryingToRegister">
       <div class="spinner-border text-primary" role="status">
@@ -36,8 +36,8 @@
       </div>
     </div>
 
-    <p class="home-description text-center" *ngIf="userRegistered">
-      {{ profile.name | uppercase }}, You are already registered – redirecting to <a href="https://portal.datapartnership.org">portal.datapartnership.org</a> in 5 seconds!
+    <p class="home-description text-center" *ngIf="userRegistered && !userRegisteredSuccessfully">
+      {{ profile.name | uppercase }},  {{ profile.message }} – redirecting to <a href="https://portal.datapartnership.org">portal.datapartnership.org</a> in 5 seconds!
     </p>
 
     <p class="home-description text-center" *ngIf="userRegisteredSuccessfully">

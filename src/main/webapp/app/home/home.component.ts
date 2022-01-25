@@ -85,11 +85,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.wbService.registerUser( this.profile.email, first_name, last_name).subscribe(
       value => {
-        if (value.body?.userRegistered) {
-            this.loader = true;
-            this.userNotExist = false;
-            this.userNotRegistered = false;
-          this.redirectToExternalLinkAfterSecondsWithSuccessMessage(value.body.redirectUrl, 5000);
+        if (value.body?.userRegistered) {            
+          this.profile.message="You are successfuly registered at Development Data Partnership Portal";
+          this.redirectToExternalLinkAfterSeconds(value.body.redirectUrl, 5000);
         } else {
           this.loader = false;
           this.tryingToRegister = false;
@@ -116,6 +114,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.wbService.checkIfUserExist(email).subscribe(
         value => {
           if (value.body?.userExist) {
+            this.profile.message="You are already registered";
             this.redirectToExternalLinkAfterSeconds(value.body.redirectUrl, 5000);
           } else {
             this.userNotExist = true;
@@ -131,17 +130,29 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userRegistered = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
-    this.loader = false;
+    this.loader = false;     
+    this.tryingToRegister = false;
     setInterval(() => {
+      this.userRegistered = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
+    this.loader = false;     
+    this.tryingToRegister = false;
       this.redirectToExternalLink(redirectURL);
     }, miliseconds)
+    this.userRegistered = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
+    this.loader = false;     
+    this.tryingToRegister = false;
   }
 
   private redirectToExternalLinkAfterSecondsWithSuccessMessage( redirectURL: string | undefined, miliseconds: number): void {
-    this.userRegisteredSuccessfully = true;
+    this.userRegistered = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
     this.loader = false;
+    this.profile.message="You are successfuly registered at Development Data Partnership Portal";
     setInterval(() => {
       this.redirectToExternalLink(redirectURL);
     }, miliseconds)
