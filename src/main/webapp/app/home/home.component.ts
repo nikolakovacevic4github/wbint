@@ -133,28 +133,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loader = false;     
     this.tryingToRegister = false;
     setInterval(() => {
-      this.userRegistered = true;
-    this.userNotExist = false;
-    this.userNotRegistered = false;
-    this.loader = false;     
-    this.tryingToRegister = false;
-      this.redirectToExternalLink(redirectURL);
+            this.redirectToExternalLink(redirectURL);
     }, miliseconds)
-    this.userRegistered = true;
-    this.userNotExist = false;
-    this.userNotRegistered = false;
-    this.loader = false;     
-    this.tryingToRegister = false;
+
   }
 
-  private redirectToExternalLinkAfterSecondsWithSuccessMessage( redirectURL: string | undefined, miliseconds: number): void {
-    this.userRegistered = true;
-    this.userNotExist = false;
-    this.userNotRegistered = false;
-    this.loader = false;
-    this.profile.message="You are successfuly registered at Development Data Partnership Portal";
-    setInterval(() => {
-      this.redirectToExternalLink(redirectURL);
-    }, miliseconds)
-  }
+
 }
