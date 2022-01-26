@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       } else {
         console.log("DEVELOPMENT>>>");
         this.profile = {
-          email: "ddp.test4@oneun.org",
+          email: "ddp.test1@oneun.org",
           name: "Test1",
           surr_name: "test1"
         }
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.loader = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
-    setInterval(() => {
+    setTimeout(() => {
       this.wbService.checkIfUserExist(email).subscribe(
         value => {
           if (value.body?.userExist) {
@@ -132,10 +132,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userNotRegistered = false;
     this.loader = false;     
     this.tryingToRegister = false;
-    setInterval(() => {
+    console.log("Before Redirect>>>");
+    setTimeout(() => {
             this.redirectToExternalLink(redirectURL);
     }, miliseconds)
-
+    console.log("After Redirect>>>");
+    this.userRegistered = true;
+    this.userNotExist = false;
+    this.userNotRegistered = false;
+    this.loader = false;     
+    this.tryingToRegister = false;
+    console.log("After Redirect2>>>");
+   // console.log(!this.loader && this.userNotExist  && !this.userNotRegistered);
   }
 
 
