@@ -13,10 +13,10 @@ export class WBService {
     if (!email) {
       return EMPTY;
     }
-    if (email === 'ddp.test1@oneun.org') {
-      const mockResponse = new HttpResponse<IUserExist>({body: new UserExist(false, undefined)});
-      return of(mockResponse);
-    }
+    // if (email === 'ddp.test1@oneun.org') {
+    //   const mockResponse = new HttpResponse<IUserExist>({body: new UserExist(false, undefined)});
+    //   return of(mockResponse);
+    // }
     const options = new HttpParams().set("email", String(email));
     return this.http.get<IUserExist>(this.applicationConfigService.getEndpointFor('/api/wb/searchUser'), {observe: "response", params: options});
   }

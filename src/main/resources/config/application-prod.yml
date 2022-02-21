@@ -161,7 +161,7 @@ jhipster:
 
 # application:
 application:
-  apikey: 9GpzI4zLjx7ctdS8d6EjT9daySsxkN1y
+  apikey: mYR3a0PRNJ83NmQ5Rh5SlhBL8uK3h06l
   url: https://apigwext.worldbank.org/azure
   authority: https://login.microsoftonline.com/
   tenant: worldbank.org
@@ -170,5 +170,5 @@ application:
   username: b2b_undp_userprovisioning@worldbank.org
   password: u1XyTcLn3bnUtrm3dZRQyuY9CZ0WhfQ
   redirectUrl: https://portal.datapartnership.org
-  groupName: B2B_QA_UNDP
-  inviteRedirectUrl: https://datapartnershipqa.worldbank.org/
+  groupName: B2B_Prd_UNDP
+  inviteRedirectUrl: https://portal.datapartnership.org/
