@@ -2,27 +2,32 @@
   <div class="col-md-9 mr-auto ml-auto">
     <span class="logo-img"></span>
     <h1 class="text-center text-black-50 font-weight-bolder mt-2 mb-3" style=" font-size: 2rem">Development Data Partnership - UNDP user account creation</h1>
-    <span class="hipster"></span>
 
-
-    <p class="home-description text-center" *ngIf="loader && !userNotExist && !userNotRegistered ">
-      Hello, {{ profile.name | uppercase }}, checking if you have already registered at Development Data Partnership Portal...
-    </p>
     <div class="padding-centered" *ngIf="loader && !userNotExist && !userNotRegistered">
+      <span class="hipster"></span>
+      <p class="home-description text-center" *ngIf="loader && !userNotExist && !userNotRegistered ">
+        Hello, {{ profile.name | uppercase }}, checking if you have already registered at Development Data Partnership Portal...
+      </p>
       <div class="spinner-border text-primary" role="status">
         <span class="sr-only">Loading....</span>
       </div>
     </div>
 
-
     <p class="home-description text-center" ng-hide="!(!loader && userNotExist  && !userNotRegistered)" *ngIf="!loader && userNotExist  && !userNotRegistered " >
       {{ profile.name | uppercase }}, you are not registered at Development Data Partnership Portal.
     </p>
     <div class="padding-centered" ng-hide="!(!loader && userNotExist  && !userNotRegistered )" *ngIf="!loader && userNotExist && !userNotRegistered">
+      <p class="home-description text-center">Hi, {{ profile.name | uppercase }}. To gain access to Development Data Partnerships portal we have to create your account. All you have to do is click on a button below and your account will be automatically created. You will then be redirected to the portal.
+      </p>
+      <p class="home-description text-center">On your first access you will be asked to log in with your UNDP Credentials:</p>
+      <span class="instructions-img"></span>
+      <p class="home-description text-center">
+        You may also be asked to allow portal application access. Click Accept.
+      </p>
       <button
         (click)="registerUserToWB()"
         class="btn btn-primary">
-        Register
+        Create my account on Development Data Partnership Portal
       </button>
     </div>
 
