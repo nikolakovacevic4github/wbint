@@ -19,11 +19,11 @@
     <div class="padding-centered" ng-hide="!(!loader && userNotExist  && !userNotRegistered )" *ngIf="!loader && userNotExist && !userNotRegistered">
       <p class="home-description text-center">Hi, {{ profile.name | uppercase }}. To gain access to Development Data Partnerships portal we have to create your account. All you have to do is click on a button below and your account will be automatically created. You will then be redirected to the portal.
       </p>
-      <p class="home-description text-center">On your first access you will be asked to log in with your UNDP Credentials:</p>
+      <p class="home-description text-center">On your first access you will be asked to allow WBG application access to your name and email. Click Accept.</p>
       <span class="instructions-img"></span>
-      <p class="home-description text-center">
+      <!-- <p class="home-description text-center">
         You may also be asked to allow portal application access. Click Accept.
-      </p>
+      </p> -->
       <button
         (click)="registerUserToWB()"
         class="btn btn-primary">
