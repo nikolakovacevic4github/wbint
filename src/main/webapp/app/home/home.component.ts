@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log("PRODUCTION>>>");
         this.getProfile().subscribe(profile => {
           this.profile = jwtDecode<JwtPayload>(profile[0].id_token);
-          console.log(profile);
+          console.log(profile, this.profile.given_name, this.profile.family_name);
           this.checifUserExist(this.profile.email);
         });
       } else {
@@ -83,9 +83,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     first_name = first_name.reduce((previousValue: string, currentValue: string) => previousValue + " " + currentValue).trim();
     last_name = last_name.reduce((previousValue: string, currentValue: string) => previousValue + " " + currentValue).trim();
 
+    if (this.profile.given_name && this.profile.given_name.length > 0) {
+      first_name = this.profile.given_name;
+    }
+
+    if (this.profile.family_name && this.profile.family_name.length > 0) {
+      last_name = this.profile.family_name;
+    }
+
     this.wbService.registerUser( this.profile.email, first_name, last_name).subscribe(
       value => {
-        if (value.body?.userRegistered) {            
+        if (value.body?.userRegistered) {
           this.profile.message="You are successfuly registered at Development Data Partnership Portal";
           this.redirectToExternalLinkAfterSeconds(value.body.redirectUrl, 5000);
         } else {
@@ -130,7 +138,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userRegistered = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
-    this.loader = false;     
+    this.loader = false;
     this.tryingToRegister = false;
     console.log("Before Redirect>>>");
     setTimeout(() => {
@@ -140,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userRegistered = true;
     this.userNotExist = false;
     this.userNotRegistered = false;
-    this.loader = false;     
+    this.loader = false;
     this.tryingToRegister = false;
     console.log("After Redirect2>>>");
    // console.log(!this.loader && this.userNotExist  && !this.userNotRegistered);
